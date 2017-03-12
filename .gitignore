@@ -98,3 +98,6 @@ data/pelican-plugins/
 
 # Ignore all pelican - themes that are not needed at this moment.
 data/pelican-themes/
+
+# Ignore output pelican directory:
+output/
