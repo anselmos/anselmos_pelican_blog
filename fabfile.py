@@ -90,3 +90,7 @@ def gh_pages():
     """Publish to GitHub Pages"""
     rebuild()
     local("ghp-import -b {github_pages_branch} {deploy_path} -p".format(**env))
+
+def ftp_upload():
+    # simplest solution for now.
+    local('lftp ftp://{ftp_user}@{ftp_host} -e "mirror -R {deploy_path} {ftp_target_dir} ; quit"'.format(**env))
