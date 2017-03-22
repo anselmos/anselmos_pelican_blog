@@ -1,9 +1,15 @@
-from fabric.api import *
-import fabric.contrib.project as project
+import netrc
 import os
 import shutil
 import sys
 import SocketServer
+
+from fabric.api import *
+import fabric.contrib.project as project
+
+import ftputil
+import logging
+logging.basicConfig(filename='fabric.log', level=logging.DEBUG, format='%(levelname)s -> %(asctime)s ->  %(message)s')
 
 from pelican.server import ComplexHTTPRequestHandler
 
@@ -92,5 +98,25 @@ def gh_pages():
     local("ghp-import -b {github_pages_branch} {deploy_path} -p".format(**env))
 
 def ftp_upload():
-    # simplest solution for now.
-    local('lftp ftp://{ftp_user}@{ftp_host} -e "mirror -R {deploy_path} {ftp_target_dir} ; quit"'.format(**env))
+    netrc_data = netrc.netrc(env.netrc_file)
+    authenticator = netrc_data.authenticators(env.ftp_host)
+
+    def upload_dir(source, target):
+        ftp_host.chdir(target)
+        for dir_name, _, dir_fiels in os.walk(source):
+
+            local = os.path.join(os.curdir, dir_name)
+            local_strip = local.strip("./")
+            local_for_remote = local_strip.strip(source)
+            if not ftp_host.path.exists(target + local_for_remote):
+                ftp_host.makedirs(target + local_for_remote)
+
+            for file_ in os.listdir(local_strip):
+                source_upload = local + "/" + file_
+                target_upload = target + local_for_remote +"/" + file_
+                if not os.path.isdir(source_upload):
+                    logging.debug("uploads {},  {}".format(source_upload, target_upload))
+                    ftp_host.upload(source_upload, target_upload)
+
+    with ftputil.FTPHost(env.ftp_host, authenticator[0], authenticator[2]) as ftp_host:
+        upload_dir(env.deploy_path, env.ftp_target_dir)
