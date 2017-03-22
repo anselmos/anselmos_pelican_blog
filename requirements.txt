@@ -1,0 +1,17 @@
+Fabric==1.13.1
+Jinja2==2.9.5
+MarkupSafe==1.0
+Pygments==2.2.0
+Unidecode==0.04.20
+argparse==1.2.1
+blinker==1.4
+docutils==0.13.1
+feedgenerator==1.9
+ftputil==3.3.1
+paramiko==2.1.2
+pelican==3.7.1
+pyasn1==0.2.3
+python-dateutil==2.6.0
+pytz==2016.10
+six==1.10.0
+wsgiref==0.1.2
