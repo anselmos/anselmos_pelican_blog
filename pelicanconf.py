@@ -26,8 +26,10 @@ BOOTSTRAP_NAVBAR_INVERSE = True ## for inversing colors at navbar
 GITHUB_USER = 'anselmos'  ## just put your github username here.
 GITHUB_SKIP_FORK = True
 ABOUT_ME = """ Developer. Mainly found at backyard of - pick yourself: (sorted by name) : android | docker | java | linux | python """
+DISPLAY_CATEGORIES_ON_SIDEBAR = True
 
 # PELICAN_BOOTSTRAP3_THEME }
+
 
 STATIC_PATHS = ['images']
 
