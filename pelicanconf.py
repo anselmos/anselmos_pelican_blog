@@ -9,6 +9,13 @@ SITEURL = ''
 PATH = 'content'
 
 TIMEZONE = 'Europe/Warsaw'
+PLUGIN_PATHS = ['plugins']
+PLUGINS = ['i18n_subsites']
+
+THEME = "themes/pelican-bootstrap3"
+JINJA_ENVIRONMENT = {
+	"extensions": ['jinja2.ext.i18n'],
+}
 
 DEFAULT_LANG = u'E\x08'
 
